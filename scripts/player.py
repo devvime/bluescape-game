@@ -59,6 +59,10 @@ class Player(pg.sprite.Sprite):
                     self.direction.y = 0
                     self.rect.bottom = sprite.rect.top
                     self.on_ground = True
+                
+                if self.direction.y < 0:
+                    self.direction.y = 0
+                    self.rect.top = sprite.rect.bottom
     
     def x_collision(self):
         for sprite in self.collision_group:

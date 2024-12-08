@@ -5,6 +5,7 @@ from scripts.settings import *
 from scripts.map import *
 from scripts.player import Player
 from scripts.camera import Camera
+from scripts.ui import Ui
 
 class Game:
 
@@ -18,8 +19,12 @@ class Game:
         self.fade = Fade(5)
         self.tick = 0
         
-        self.generate_map()
+        self.finish = Obj("assets/tile/finish.png", [0, 0], [self.all_sprites])
         self.player = Player(pos=(0, 0), groups=[self.all_sprites], collision_group=self.all_colision)
+        self.hud_ui = Ui()
+        
+        self.generate_map()
+        
 
         #self.music = pygame.mixer.Sound("file")
         #self.music.play(-1)
@@ -32,21 +37,33 @@ class Game:
                 
                 if col == "x":
                     Obj("assets/tile/tile.png", [x, y], [self.all_sprites, self.all_colision])
+                elif col == "c":
+                    self.finish.rect.x = x
+                    self.finish.rect.y = y
 
     def colision(self):
-        pass
+        if self.player.rect.colliderect(self.finish.rect):
+            self.active = False
 
     def gameover(self):
-        pass
+        if self.player.rect.y > HEIGHT + 350:
+            self.player.rect.x = 0
+            self.player.rect.y = 0
+            self.hud_ui.life -= 1
+            
+        if self.hud_ui.life <= 0:
+            self.active = False
     
     def events(self, event):
         pass
     
     def draw(self):
         self.all_sprites.render(self.player)
+        self.hud_ui.draw()
                 
     def update(self):
-        self.fade.draw()
         self.all_sprites.update()
         self.colision()
         self.gameover()
+        self.hud_ui.update()
+        self.fade.draw()
