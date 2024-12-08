@@ -29,9 +29,9 @@ class Game(Scene):
                 y = row_index * map1_tile_size
                 
                 if col == "x":
-                    Obj("assets/tile/tile.png", [x, y], [self.all_sprites])
+                    Obj("assets/tile/tile.png", [x, y], [self.all_sprites, self.all_colision])
                 elif col == "p":
-                    Player(pos=(x, y), groups=[self.all_sprites])
+                    Player(pos=(x, y), groups=[self.all_sprites], collision_group=self.all_colision)
 
     def colision(self):
         pass
