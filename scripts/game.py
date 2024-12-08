@@ -1,23 +1,25 @@
-import random
 import pygame
-from scripts.animatedbg import AnimatedBg
+from scripts.fade import Fade
 from scripts.obj import Obj
-from scripts.scene import Scene
 from scripts.settings import *
-from scripts.text import Text
 from scripts.map import *
 from scripts.player import Player
+from scripts.camera import Camera
 
-class Game(Scene):
+class Game:
 
     def __init__(self):
-        super().__init__()
-
-        self.tick = 0
+        
+        self.display = pygame.display.get_surface()
+        self.all_sprites = Camera()
         self.enemy_colision = pygame.sprite.Group()
         self.all_colision = pygame.sprite.Group()
+        self.active = True
+        self.fade = Fade(5)
+        self.tick = 0
         
         self.generate_map()
+        self.player = Player(pos=(0, 0), groups=[self.all_sprites], collision_group=self.all_colision)
 
         #self.music = pygame.mixer.Sound("file")
         #self.music.play(-1)
@@ -30,16 +32,21 @@ class Game(Scene):
                 
                 if col == "x":
                     Obj("assets/tile/tile.png", [x, y], [self.all_sprites, self.all_colision])
-                elif col == "p":
-                    Player(pos=(x, y), groups=[self.all_sprites], collision_group=self.all_colision)
 
     def colision(self):
         pass
 
     def gameover(self):
         pass
+    
+    def events(self, event):
+        pass
+    
+    def draw(self):
+        self.all_sprites.render(self.player)
                 
     def update(self):
+        self.fade.draw()
+        self.all_sprites.update()
         self.colision()
         self.gameover()
-        return super().update()
