@@ -2,9 +2,7 @@ import pygame as pg
 import sys
 
 from scripts.settings import *
-from scripts.scenes.menu import Menu
-from scripts.scenes.gameplay import GamePlay
-from scripts.scenes.gameover import GameOver
+from scripts.components.scene_manager import SceneManager
 
 class Game:
 
@@ -16,8 +14,9 @@ class Game:
         pg.display.set_caption(NAME)
         
         self.display = pg.display.set_mode([WIDTH, HEIGHT])
-        self.scene = "menu"
-        self.current_scene = Menu()
+        
+        self.scene_manager = SceneManager()
+        self.scene_manager.set_scene("menu")
 
         self.fps = pg.time.Clock()
     
@@ -25,25 +24,19 @@ class Game:
         
         while True:
 
-            if self.scene == "menu" and self.current_scene.active == False:
-                self.scene = "game"
-                self.current_scene = GamePlay()
-            elif self.scene == "game" and self.current_scene.active == False:
-                self.scene = "gameover"
-                self.current_scene = GameOver()
-            elif self.scene == "gameover" and self.current_scene.active == False:
-                self.scene = "menu"
-                self.current_scene = Menu()
-
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
                     sys.exit()
                     
-                self.current_scene.events(event)
+                if self.scene_manager.current_scene:
+                    self.scene_manager.current_scene.events(event)
             
             self.fps.tick(60)
             self.display.fill([12, 159, 255])
-            self.current_scene.draw()
-            self.current_scene.update()
+            
+            if self.scene_manager.current_scene:
+                self.scene_manager.current_scene.draw()
+                self.scene_manager.current_scene.update()
+            
             pg.display.flip()

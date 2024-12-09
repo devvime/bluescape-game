@@ -10,8 +10,9 @@ from scripts.entities.ui import Ui
 
 class GamePlay:
 
-    def __init__(self):
+    def __init__(self, scene_manager):
         
+        self.scene_manager = scene_manager        
         self.display = pg.display.get_surface()
         self.all_sprites = Camera()
         self.enemy_colision = pg.sprite.Group()
@@ -44,7 +45,7 @@ class GamePlay:
 
     def colision(self):
         if self.player.rect.colliderect(self.finish.rect):
-            self.active = False
+            self.scene_manager.set_scene("gameover")
 
     def gameover(self):
         if self.player.rect.y > HEIGHT + 350:
@@ -53,7 +54,7 @@ class GamePlay:
             self.hud_ui.life -= 1
             
         if self.hud_ui.life <= 0:
-            self.active = False
+            self.scene_manager.set_scene("gameover")
     
     def events(self, event):
         pass
