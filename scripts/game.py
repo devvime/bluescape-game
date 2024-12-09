@@ -1,69 +1,49 @@
-import pygame
-from scripts.fade import Fade
-from scripts.obj import Obj
+import pygame as pg
+import sys
+
 from scripts.settings import *
-from scripts.map import *
-from scripts.player import Player
-from scripts.camera import Camera
-from scripts.ui import Ui
+from scripts.scenes.menu import Menu
+from scripts.scenes.gameplay import GamePlay
+from scripts.scenes.gameover import GameOver
 
 class Game:
 
     def __init__(self):
-        
-        self.display = pygame.display.get_surface()
-        self.all_sprites = Camera()
-        self.enemy_colision = pygame.sprite.Group()
-        self.all_colision = pygame.sprite.Group()
-        self.active = True
-        self.fade = Fade(5)
-        self.tick = 0
-        
-        self.finish = Obj("assets/tile/finish.png", [0, 0], [self.all_sprites])
-        self.player = Player(pos=(0, 0), groups=[self.all_sprites], collision_group=self.all_colision)
-        self.hud_ui = Ui()
-        
-        self.generate_map()
-        
 
-        #self.music = pygame.mixer.Sound("file")
-        #self.music.play(-1)
+        pg.init()
+        pg.mixer.init()
+        pg.font.init()
+        pg.display.set_caption(NAME)
         
-    def generate_map(self):
-        for row_index, row in enumerate(map1):
-            for col_index, col in enumerate(row):
-                x = col_index * map1_tile_size
-                y = row_index * map1_tile_size
-                
-                if col == "x":
-                    Obj("assets/tile/tile.png", [x, y], [self.all_sprites, self.all_colision])
-                elif col == "c":
-                    self.finish.rect.x = x
-                    self.finish.rect.y = y
+        self.display = pg.display.set_mode([WIDTH, HEIGHT])
+        self.scene = "menu"
+        self.current_scene = Menu()
 
-    def colision(self):
-        if self.player.rect.colliderect(self.finish.rect):
-            self.active = False
+        self.fps = pg.time.Clock()
+    
+    def run(self):
+        
+        while True:
 
-    def gameover(self):
-        if self.player.rect.y > HEIGHT + 350:
-            self.player.rect.x = 0
-            self.player.rect.y = 0
-            self.hud_ui.life -= 1
+            if self.scene == "menu" and self.current_scene.active == False:
+                self.scene = "game"
+                self.current_scene = GamePlay()
+            elif self.scene == "game" and self.current_scene.active == False:
+                self.scene = "gameover"
+                self.current_scene = GameOver()
+            elif self.scene == "gameover" and self.current_scene.active == False:
+                self.scene = "menu"
+                self.current_scene = Menu()
+
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
+                    
+                self.current_scene.events(event)
             
-        if self.hud_ui.life <= 0:
-            self.active = False
-    
-    def events(self, event):
-        pass
-    
-    def draw(self):
-        self.all_sprites.render(self.player)
-        self.hud_ui.draw()
-                
-    def update(self):
-        self.all_sprites.update()
-        self.colision()
-        self.gameover()
-        self.hud_ui.update()
-        self.fade.draw()
+            self.fps.tick(60)
+            self.display.fill([12, 159, 255])
+            self.current_scene.draw()
+            self.current_scene.update()
+            pg.display.flip()

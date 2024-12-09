@@ -1,12 +1,13 @@
 import pygame
-from scripts.obj import Obj
+
+from scripts.components.entity import Entity
 from scripts.settings import HEIGHT
 
 class AnimatedBg:
 
     def __init__(self, img, pos1,pos2, group):
-        self.bg = Obj(img,pos1, group)
-        self.bg2 = Obj(img,pos2, group)
+        self.bg = Entity(img,pos1, group)
+        self.bg2 = Entity(img,pos2, group)
     
     def update(self):
 

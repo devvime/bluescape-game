@@ -1,12 +1,11 @@
-import pygame
-
+import pygame as pg
 
 class Text:
 
-    def __init__(self, font, size, text, color, pos):
+    def __init__(self, font=None, size=20, text="", color="black", pos=pg.math.Vector2(0, 0)):
 
-        self.display = pygame.display.get_surface()
-        self.font = pygame.font.Font(font,size)
+        self.display = pg.display.get_surface()
+        self.font = pg.font.Font(font,size)
         self.text = self.font.render(text, True,color).convert_alpha()
         self.position = pos
         self.text_alpha = 255

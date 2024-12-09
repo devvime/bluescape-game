@@ -1,6 +1,7 @@
 import pygame
-from scripts.fade import Fade
+
 from scripts.settings import *
+from scripts.components.fade import Fade
 
 class Scene:
 
@@ -10,7 +11,7 @@ class Scene:
         self.all_sprites = pygame.sprite.Group()
         self.active = True
 
-        self.fade = Fade(5)
+        self.fade = Fade(speed=5)
 
     def events(self, event):
         pass

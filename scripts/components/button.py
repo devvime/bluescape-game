@@ -1,7 +1,7 @@
 import pygame as pg
 
 from scripts.settings import *
-from scripts.text import Text
+from scripts.components.text import Text
 
 class Button:
     

@@ -1,4 +1,5 @@
 import pygame as pg
+
 from scripts.settings import *
 
 class Camera(pg.sprite.Group):

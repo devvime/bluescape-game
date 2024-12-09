@@ -1,9 +1,10 @@
 import pygame
+
 from scripts.settings import *
 
 class Fade:
 
-    def __init__(self, speed):
+    def __init__(self, speed=5):
         
         self.display = pygame.display.get_surface()
         self.surface = pygame.Surface((WIDTH, HEIGHT)).convert_alpha()

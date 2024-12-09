@@ -1,6 +1,6 @@
 import pygame as pg
 
-from scripts.obj import Obj
+from scripts.components.entity import Entity
 
 class Ui:
     
@@ -11,9 +11,9 @@ class Ui:
         
         self.life = 3
         
-        self.hud1 = Obj("assets/player/idle_0.png", [0, 10], [self.ui_group])
-        self.hud2 = Obj("assets/player/idle_0.png", [74, 10], [self.ui_group])
-        self.hud3 = Obj("assets/player/idle_0.png", [144, 10], [self.ui_group])
+        self.hud1 = Entity("assets/player/idle_0.png", [0, 10], [self.ui_group])
+        self.hud2 = Entity("assets/player/idle_0.png", [74, 10], [self.ui_group])
+        self.hud3 = Entity("assets/player/idle_0.png", [144, 10], [self.ui_group])
         
     def count_lifes(self):
         if self.life == 2:

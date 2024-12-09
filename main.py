@@ -1,5 +1,5 @@
-from scripts.startgame import StartGame
+from scripts.game import Game
 
 if __name__ == "__main__":
-    game = StartGame()
+    game = Game()
     game.run()
