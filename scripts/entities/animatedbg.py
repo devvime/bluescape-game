@@ -5,9 +5,9 @@ from scripts.settings import HEIGHT
 
 class AnimatedBg:
 
-    def __init__(self, img, pos1,pos2, group):
-        self.bg = Entity(img,pos1, group)
-        self.bg2 = Entity(img,pos2, group)
+    def __init__(self, img, pos1, pos2, group):
+        self.bg = Entity(img, pos1, group)
+        self.bg2 = Entity(img, pos2, group)
     
     def update(self):
 
