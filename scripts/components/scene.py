@@ -5,13 +5,13 @@ from scripts.components.fade import Fade
 
 class Scene:
 
-    def __init__(self):
+    def __init__(self, display=None):
         
-        self.display = pg.display.get_surface()
+        self.display = display
         self.all_sprites = pg.sprite.Group()
         self.all_colision = pg.sprite.Group()
         self.active = True
-        self.fade = Fade(speed=5)
+        self.fade = Fade(speed=5, display=self.display)
 
     def events(self, event):
         pass
@@ -21,6 +21,7 @@ class Scene:
         self.fade.draw()
 
     def update(self):
+        if not self.display: return
         self.all_sprites.update()
 
 

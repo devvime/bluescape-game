@@ -10,14 +10,14 @@ from scripts.components.button import Button
 
 class Menu(Scene):
 
-    def __init__(self, scene_manager):
-        super().__init__()
+    def __init__(self, scene_manager, display=None):
+        super().__init__(display)
         
         self.scene_manager = scene_manager
         self.bg = AnimatedBg("assets/menu/bg.png", [0, 0], [0, -HEIGHT], [self.all_sprites])
         self.title = Entity(img="assets/menu/title.png", pos=(436, 166), groups=[self.all_sprites])
-        self.btn_play = Button(color="white", pos=(64, 520), text="Play", font_color=[51, 51, 51], call_back=self.play)
-        self.btn_quit = Button(color="white", pos=(64, 600), text="Quit", font_color=[51, 51, 51], call_back=self.quit_game)
+        self.btn_play = Button(color="white", pos=(64, 520), text="Play", font_color=[51, 51, 51], call_back=self.play, display=self.display)
+        self.btn_quit = Button(color="white", pos=(64, 600), text="Quit", font_color=[51, 51, 51], call_back=self.quit_game, display=self.display)
         
     def play(self):
         self.scene_manager.set_scene("gameplay")

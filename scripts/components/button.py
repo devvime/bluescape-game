@@ -5,9 +5,9 @@ from scripts.components.text import Text
 
 class Button:
     
-    def __init__(self, color="white", hover_color=[55, 55, 55], pos=(0, 0), size=(250, 64), text="Button", font_size=40, font_color="black", call_back=None):
+    def __init__(self, color="white", hover_color=[55, 55, 55], pos=(0, 0), size=(250, 64), text="Button", font_size=40, font_color="black", call_back=None, display=None):
         
-        self.display = pg.display.get_surface()
+        self.display = display
         self.initial_color = color
         self.color = color
         self.hover_color = hover_color
@@ -20,7 +20,7 @@ class Button:
         self.fonst_size = font_size
         self.font_color = font_color
         self.font_pos = [(self.pos.x + self.rect.width / 2), (self.pos.y + self.rect.height / 2)]
-        self.text_render = Text("assets/fonts/airstrike.ttf", self.fonst_size, self.text, self.font_color, self.font_pos)
+        self.text_render = Text("assets/fonts/airstrike.ttf", self.fonst_size, self.text, self.font_color, self.font_pos, display=self.display)
         
     def events(self, event):
         if event.type == pg.MOUSEMOTION:

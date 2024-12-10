@@ -4,10 +4,10 @@ from scripts.settings import *
 
 class Camera(pg.sprite.Group):
 
-    def __init__(self):
+    def __init__(self, display=None):
         super().__init__()
         
-        self.display = pg.display.get_surface()
+        self.display = display
         self.offset = pg.math.Vector2()
         
     def render(self, player):

@@ -2,9 +2,9 @@ import pygame as pg
 
 class Text:
 
-    def __init__(self, font=None, size=20, text="", color="black", pos=pg.math.Vector2(0, 0)):
+    def __init__(self, font=None, size=20, text="", color="black", pos=pg.math.Vector2(0, 0), display=None):
 
-        self.display = pg.display.get_surface()
+        self.display = display
         self.font = pg.font.Font(font,size)
         self.text = self.font.render(text, True,color).convert_alpha()
         self.position = pos

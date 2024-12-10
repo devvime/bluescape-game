@@ -4,9 +4,9 @@ from scripts.settings import *
 
 class Fade:
 
-    def __init__(self, speed=5):
+    def __init__(self, speed=5, display=None):
         
-        self.display = pygame.display.get_surface()
+        self.display = display
         self.surface = pygame.Surface((WIDTH, HEIGHT)).convert_alpha()
         self.surface.fill("black")
 

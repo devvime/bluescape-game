@@ -26,13 +26,13 @@ class Player(pg.sprite.Sprite):
         key = pg.key.get_pressed()
         
         if key[pg.K_a]:
+            self.flip = True
             self.animation(speed=8, frames=3, path="assets/player/walk_")
             self.direction.x = -self.speed
-            self.flip = True
         elif key[pg.K_d]:
+            self.flip = False
             self.animation(speed=8, frames=3, path="assets/player/walk_")
             self.direction.x = self.speed
-            self.flip = False
         else:
             self.animation(speed=16, frames=2, path="assets/player/idle_")
             self.direction.x = 0
@@ -74,7 +74,7 @@ class Player(pg.sprite.Sprite):
                     
     def animation(self, speed=8, frames=3, path=""):
         self.tick += 1
-        if self.tick > speed:
+        if self.tick >= speed:
             self.tick = 0
             self.frame = (self.frame + 1) % frames
             self.image = pg.image.load(path+ str(self.frame) + ".png")

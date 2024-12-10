@@ -10,15 +10,15 @@ from scripts.entities.ui import Ui
 
 class GamePlay:
 
-    def __init__(self, scene_manager):
+    def __init__(self, scene_manager, display=None):
         
         self.scene_manager = scene_manager        
-        self.display = pg.display.get_surface()
-        self.all_sprites = Camera()
+        self.display = display
+        self.all_sprites = Camera(display=self.display)
         self.enemy_colision = pg.sprite.Group()
         self.all_colision = pg.sprite.Group()
         self.active = True
-        self.fade = Fade(speed=5)
+        self.fade = Fade(speed=5, display=self.display)
         self.tick = 0
         
         self.finish = Entity("assets/tile/finish.png", [0, 0], [self.all_sprites])
