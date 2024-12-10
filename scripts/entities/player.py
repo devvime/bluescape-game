@@ -1,6 +1,7 @@
 import pygame as pg
 
 from scripts.components.entity import Entity
+from scripts.components.animator import Animator
 
 class Player(pg.sprite.Sprite):
     
@@ -22,20 +23,32 @@ class Player(pg.sprite.Sprite):
         
         self.collision_group = collision_group
         
+        self.animator = Animator()
+        self.animator.create(name="idle", path="assets/player/idle", frames=2, speed=16)
+        self.animator.create(name="idle_flipped", path="assets/player/idle", frames=2, speed=16, flip=True)
+        self.animator.create(name="walk_right", path="assets/player/walk", frames=3, speed=8)
+        self.animator.create(name="walk_left", path="assets/player/walk", frames=3, speed=8, flip=True)
+        self.animator.create(name="jump", path="assets/player/jump", frames=3, speed=8)
+        
+        self.jump_image = pg.image.load("assets/player/jump.png")
+        
     def input(self):
         key = pg.key.get_pressed()
         
         if key[pg.K_a]:
             self.flip = True
-            self.animation(speed=8, frames=3, path="assets/player/walk_")
+            self.image = self.animator.play("walk_left")
             self.direction.x = -self.speed
         elif key[pg.K_d]:
             self.flip = False
-            self.animation(speed=8, frames=3, path="assets/player/walk_")
+            self.image = self.animator.play("walk_right")
             self.direction.x = self.speed
         else:
-            self.animation(speed=16, frames=2, path="assets/player/idle_")
             self.direction.x = 0
+            if self.flip:
+                self.image = self.animator.play("idle_flipped")
+            else:
+                self.image = self.animator.play("idle")
             
         if key[pg.K_SPACE] and self.on_ground:
             self.direction.y = -self.jump_force
@@ -45,7 +58,7 @@ class Player(pg.sprite.Sprite):
         self.rect.x += self.direction.x * self.speed
         
         if not self.on_ground:
-            self.image = pg.image.load("assets/player/jump.png")
+            self.image = self.jump_image
             self.image = pg.transform.flip(self.image, self.flip, False)
         
     def gravity_force(self):
